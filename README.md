@@ -3,12 +3,20 @@
 This project provides a REST API wrapper for the Llama3.java model. 
 The wrapper is compliant with the OpenAI API specification for chat completions.
 
+## ToDo 
+
+- [X] SpringBoot wrapper around Llama3.java
+- [ ] TornadoVM enabled version
+- [ ] GraalVM native version
+- [ ] Create Java Flame graph to see where performance issue's are located (matmul 🔥)
+- [ ] BitNets support 
+- [ ] Ternary Models support
+
 ## On Apple Silicon (M1/M2/M3)
 
 Make sure to download an ARM compliant SDK, for example from https://bell-sw.com/pages/downloads/#jdk-21-lts 
 
 https://github.com/user-attachments/assets/6fecb9c1-6c84-4a01-a63b-272e75009618
-
 
 ## Setup
 
@@ -85,3 +93,9 @@ curl -X POST http://localhost:8080/chat/completions \
 ## Test using DevoxxGenie 
 
 Select "Jlama (Experimental)" or "Exo (Experimental)" which both use the OpenAI Chat Completion.
+
+Example with file attachment in prompt context:
+
+![Llama3Java](https://github.com/user-attachments/assets/7c56d8c7-e9a8-4dbf-8d2b-54f09f2b9151)
+
+
