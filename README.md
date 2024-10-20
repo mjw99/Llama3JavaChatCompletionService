@@ -3,9 +3,9 @@
 This project provides a REST API wrapper for the Llama3.java model. 
 The wrapper is compliant with the OpenAI API specification for chat completions.
 
-## On Mac OS
+## On Apple Silicon (M1/M2/M3)
 
-Make sure to download an ARM SDK from https://bell-sw.com/pages/downloads/#jdk-21-lts
+Make sure to download an ARM compliant SDK, for example from https://bell-sw.com/pages/downloads/#jdk-21-lts 
 
 ## Setup
 
