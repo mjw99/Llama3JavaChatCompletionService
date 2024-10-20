@@ -98,5 +98,7 @@ Example with file attachment in prompt context:
 
 ![DemoLlama3java](https://github.com/user-attachments/assets/19b9194e-77f8-4c18-9224-8dcd266d14b0)
 
+## Credits
 
-
+This is just a simple Spring Boot OpenAI REST wrapper around the amazing [Llama3.java project](https://github.com/mukel/llama3.java) from Alfonso² Peterssen! 
+Thanks Alfonso for leading the way! 💪🏻 ☕️
