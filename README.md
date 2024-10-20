@@ -6,6 +6,7 @@ The wrapper is compliant with the OpenAI API specification for chat completions.
 ## ToDo 
 
 - [X] SpringBoot wrapper around Llama3.java
+- [ ] Optional: Quarkus wrapper around Llama3.java
 - [ ] TornadoVM enabled version
 - [ ] GraalVM native version
 - [ ] LLM Sharding (Layers, Attn Head)
