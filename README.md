@@ -54,13 +54,13 @@ server.port=8080
 
 ## Run 
 
-Run the Llama3.java REST wrapper:
+Start the Spring Boot app which holds the Llama3.java REST wrapper as follows:
 
 ```bash
 java --add-modules jdk.incubator.vector --enable-preview -jar target/OpenAIRestWrapper-0.0.1.jar
 ```
 
-## Test Local LLM
+## Test using Curl
 
 ```bash
 curl -X POST http://localhost:8080/chat/completions \
@@ -81,3 +81,7 @@ curl -X POST http://localhost:8080/chat/completions \
   "max_tokens": 100
 }'
 ```
+
+## Test using DevoxxGenie 
+
+Select "Jlama (Experimental)" or "Exo (Experimental)" which both use the OpenAI Chat Completion.
