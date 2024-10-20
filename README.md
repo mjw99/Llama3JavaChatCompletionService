@@ -92,6 +92,36 @@ curl -X POST http://localhost:8080/chat/completions \
 }'
 ```
 
+Response
+
+```json
+{
+   "id":"chatcmpl-1",
+   "object":"chat.completion",
+   "created":1729447400,
+   "model":"Meta-Llama-3.2-1b-instruct-Q8_0.gguf",
+   "systemFingerprint":"fp_178ce5010c913",
+   "choices":[
+      {
+         "index":0,
+         "message":{
+            "role":"assistant",
+            "content":"A man walked into a library and asked the librarian, \"Do you have any books on Pavlov's dogs and Schrödinger's cat?\" The librarian replied, \"It rings a bell, but I'm not sure if it's here or not.\""
+         },
+         "logprobs":null,
+         "finishReason":"stop"
+      }
+   ],
+   "usage":{
+      "promptTokens":25,
+      "completionTokens":53,
+      "totalTokens":78,
+      "completionTokensDetails":{
+         "reasoningTokens":0
+      }
+   }
+```
+
 ## Test using DevoxxGenie 
 
 Select "Jlama (Experimental)" or "Exo (Experimental)" which both use the OpenAI Chat Completion.
