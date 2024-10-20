@@ -7,6 +7,9 @@ The wrapper is compliant with the OpenAI API specification for chat completions.
 
 Make sure to download an ARM compliant SDK, for example from https://bell-sw.com/pages/downloads/#jdk-21-lts 
 
+https://github.com/user-attachments/assets/6fecb9c1-6c84-4a01-a63b-272e75009618
+
+
 ## Setup
 
 Set the JAVA_HOME environment variable to the ARM SDK path. For example:
