@@ -98,7 +98,7 @@ Select "Jlama (Experimental)" or "Exo (Experimental)" which both use the OpenAI 
 
 Example with file attachment in prompt context:
 
-![DemoLlama3java](https://github.com/user-attachments/assets/19b9194e-77f8-4c18-9224-8dcd266d14b0)
+![Demo2](https://github.com/user-attachments/assets/cbd8af2e-d3bd-4d9a-bdf5-0c2bc033915f)
 
 ## Credits
 
