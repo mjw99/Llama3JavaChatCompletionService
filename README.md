@@ -103,4 +103,5 @@ Example with file attachment in prompt context:
 ## Credits
 
 This is just a simple Spring Boot OpenAI REST wrapper around the amazing [Llama3.java project](https://github.com/mukel/llama3.java) from Alfonso² Peterssen! 
+
 Thanks Alfonso for leading the way! 💪🏻 ☕️
