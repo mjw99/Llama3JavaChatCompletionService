@@ -8,6 +8,7 @@ The wrapper is compliant with the OpenAI API specification for chat completions.
 - [X] SpringBoot wrapper around Llama3.java
 - [ ] TornadoVM enabled version
 - [ ] GraalVM native version
+- [ ] LLM Sharding (Layers, Attn Head)
 - [ ] Create Java Flame graph to see where performance issue's are located (matmul 🔥)
 - [ ] BitNets support 
 - [ ] Ternary Models support
