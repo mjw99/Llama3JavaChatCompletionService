@@ -1,6 +1,6 @@
 # Llama3.java Inference with OpenAI Chat Completion REST API ☕️
 
-This project provides a REST API wrapper for the Llama3.java model. 
+This project provides a REST API wrapper for the amazing [Llama3.java project](https://github.com/mukel/llama3.java) from Alfonso² Peterssen. 
 The wrapper is compliant with the OpenAI API specification for chat completions.
 
 ## ToDo 
