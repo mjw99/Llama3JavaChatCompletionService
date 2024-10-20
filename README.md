@@ -36,6 +36,19 @@ curl https://huggingface.co/hugging-quants/Llama-3.2-1B-Instruct-Q8_0-GGUF/blob/
 
 Update the 'llama.model.name' variable in the application.properties file if you use a different model.
 
+```application.properties
+spring.application.name=Llama3.java Server
+server.servlet.context-path=/
+
+llama.model.path=models
+llama.model.name=Meta-Llama-3.2-1b-instruct-Q8_0.gguf
+
+logging.level.com.llama4j=INFO
+
+server.address=localhost
+server.port=8080
+```
+
 ## Run 
 
 Run the Llama3.java REST wrapper:
