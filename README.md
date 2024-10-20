@@ -1,4 +1,4 @@
-# Llama3.java with OpenAI compliant REST API
+# Llama3.java with OpenAI Chat Completion REST API
 
 This project provides a REST API wrapper for the Llama3.java model. 
 The wrapper is compliant with the OpenAI API specification for chat completions.
