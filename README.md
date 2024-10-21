@@ -6,11 +6,11 @@ The wrapper is compliant with the OpenAI API specification for chat completions.
 ## ToDo 
 
 - [X] SpringBoot wrapper around Llama3.java
+- [X] Create Java Flame graph to see where performance issue's are located (matmul 🔥)
 - [ ] Optional: Quarkus wrapper around Llama3.java
 - [ ] TornadoVM enabled version
 - [ ] GraalVM native version
 - [ ] LLM Sharding (Layers, Attn Head)
-- [ ] Create Java Flame graph to see where performance issue's are located (matmul 🔥)
 - [ ] BitNets support 
 - [ ] Ternary Models support
 
@@ -129,6 +129,94 @@ Select "Jlama (Experimental)" or "Exo (Experimental)" which both use the OpenAI 
 Example with file attachment in prompt context:
 
 ![Demo2](https://github.com/user-attachments/assets/cbd8af2e-d3bd-4d9a-bdf5-0c2bc033915f)
+
+## Baseline Performance Stats
+
+Running on Apple M1 Max with 64Gb (LPDDR5) of RAM (32 number of Cores).  
+
+![CallTree](https://github.com/user-attachments/assets/75e739e2-44b9-4e2b-a077-63021cb9ea39)
+
+### Key Findings by ChatGPT
+
+This profiling trace shows a CPU-heavy Java application, likely dealing with machine learning or vectorized computation. Here's a breakdown of key components:
+
+1. **Heavy CPU Usage (`java.util.concurrent.ForkJoinWorkerThread.run`) at 86%**
+   - This is likely a thread-pool executor used for parallelizing tasks. It suggests significant multi-threaded execution, possibly parallelized matrix operations or tensor calculations.
+
+2. **`com.llama4j.core.FloatTensor$$Lambda.accept` (61.5%)**
+   - This method involves processing a tensor's float data. Lambda expressions in Java are anonymous functions, often used for concise representations of callbacks or functional programming.
+
+3. **`jdk.incubator.vector.FloatVector.reduceLanes` (49.5%)**
+   - Indicates vectorized computation involving float vectors. This uses the Vector API from the JDK's incubator module, designed to perform operations on wide vectors leveraging CPU SIMD (Single Instruction, Multiple Data) capabilities.
+
+4. **`com.llama4j.core.ArrayFloatTensor.getFloatVector` (7.7%)**
+   - Suggests fetching float vectors from an array-based tensor representation. This could be another bottleneck related to memory access when performing operations.
+
+5. **`com.llama4j.web.rest.LlamaWrapperApplication.chatCompletions` (13.9%)**
+   - Indicates that part of the time is spent processing chat completion requests, suggesting this application is likely an LLM interface or chatbot.
+
+6. **`com.llama4j.core.FloatTensor.matmul` (12.0%)**
+   - This is the matrix multiplication function, which contributes to the linear algebra operations in the application, likely forming the backbone of the model's computations.
+
+### Potential Bottlenecks and Optimization Ideas
+
+- **ForkJoinWorkerThread**: If this thread is consuming 86% of the CPU, there might be room to optimize the parallelization strategy. Investigate if there’s overhead or contention between threads.
+- **Vectorization**: The use of `jdk.incubator.vector.FloatVector` shows a good attempt at leveraging vectorized operations, but it may need tuning based on the target CPU’s vector width (e.g., AVX-512 support).
+- **Memory Access**: The significant time spent in `ArrayFloatTensor.getFloatVector` could indicate a memory bandwidth bottleneck. This might benefit from optimizing data locality or using more efficient memory layouts (like row-major or column-major order).
+
+---
+
+### Key Findings by Claude
+
+1. **FloatTensor Operations: 61.5% of execution time**
+
+com.llama4j.core.FloatTensor$$Lambda$0x0000000080143b048.accept(int)
+Likely the core model inference bottleneck
+
+2. **Vector Operations: 49.5% of execution time**
+
+jdk.incubator.vector.Float128Vector.reduceLanes(VectorOperators$Associative)
+Part of the FloatTensor operations
+
+3. **Array Processing: 7.7% of execution time**
+
+com.llama4j.core.ArrayFloatTensor.getFloatVector(VectorSpecies, int)
+
+4. **HTTP Request Handling: 13.9% of execution time**
+
+com.llama4j.web.rest.LlamaWrapperApplication.chatCompletions(ChatCompletionRequest)
+
+#### Recommendations
+
+1. **Optimize Tensor Operations:**
+
+Profile the FloatTensor class to identify specific bottlenecks
+Consider using more efficient linear algebra libraries or GPU acceleration
+Optimize memory access patterns and data structures
+
+2. **Improve Vector Processing:**
+
+Investigate the use of more efficient vector operations or libraries
+Consider using SIMD instructions if not already implemented
+
+3. **Enhance Array Processing:**
+
+Optimize the getFloatVector method in ArrayFloatTensor
+Consider using more efficient data structures or access patterns
+
+4. **Optimize HTTP Request Handling:**
+
+Profile the chatCompletions method to identify specific bottlenecks
+Consider implementing caching mechanisms or request batching
+Optimize data serialization/deserialization if applicable
+
+#### General Optimizations:
+
+- Implement multi-threading for parallel processing where applicable
+- Optimize memory usage and garbage collection
+- Consider using a more performant JVM or JIT compiler
+
+---
 
 ## Credits
 
