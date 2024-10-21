@@ -127,6 +127,8 @@ Response
 Launch any JetBrains IDE (such as IDEA, CLion, WebStorm, etc.) and install '[DevoxxGenie](https://plugins.jetbrains.com/plugin/24169-devoxxgenie)' from the Plugins marketplace. 
 You can then choose either 'Jlama (Experimental)' or 'Exo (Experimental)', both of which utilize OpenAI's Chat Completion.
 
+Next, enter a prompt and optionally attach files to the window context by using the 'Add File' icon located below the prompt text area.
+
 Example with file attachment in prompt context:
 
 ![Demo2](https://github.com/user-attachments/assets/cbd8af2e-d3bd-4d9a-bdf5-0c2bc033915f)
