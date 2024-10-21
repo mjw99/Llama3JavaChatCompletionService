@@ -124,7 +124,8 @@ Response
 
 ## Test using DevoxxGenie 
 
-Select "Jlama (Experimental)" or "Exo (Experimental)" which both use the OpenAI Chat Completion.
+Launch any JetBrains IDE (such as IDEA, CLion, WebStorm, etc.) and install '[DevoxxGenie](https://plugins.jetbrains.com/plugin/24169-devoxxgenie)' from the Plugins marketplace. 
+You can then choose either 'Jlama (Experimental)' or 'Exo (Experimental)', both of which utilize OpenAI's Chat Completion.
 
 Example with file attachment in prompt context:
 
