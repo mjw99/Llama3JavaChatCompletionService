@@ -22,10 +22,12 @@ https://github.com/user-attachments/assets/6fecb9c1-6c84-4a01-a63b-272e75009618
 
 ## Setup
 
-Set the JAVA_HOME environment variable to the ARM SDK path. For example:
+Set the JAVA_HOME environment variable to the ARM SDK path. 
+
+Example with Zulu JDK 23 (zulu23.30.13-ca-jdk23.0.1-macosx_aarch64)
 
 ```bash
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/liberica-jdk-21.jdk/Contents/Home
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-23.jdk/Contents/Home
 ```
 
 IMPORTANT: Do not use SDKMan because this will fall back to the x86 version of the SDK.
@@ -67,7 +69,13 @@ server.port=8080
 Start the Spring Boot app which holds the Llama3.java REST wrapper as follows:
 
 ```bash
-java --add-modules jdk.incubator.vector --enable-preview -jar target/OpenAIRestWrapper-0.0.1.jar
+java --add-modules jdk.incubator.vector --enable-preview -jar target/llama3-server-1.0.0-SNAPSHOT.jar
+```
+
+or use the run.sh script which sets some extra JVM GC and Heap settings
+
+```bash
+./run.sh
 ```
 
 ## Test using Curl
