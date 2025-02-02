@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.4</version>
+        <version>3.5.0-M1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -17,7 +17,7 @@
     <description>REST API wrapper for Llama model</description>
 
     <properties>
-        <java.version>23</java.version>
+        <java.version>24</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -73,7 +73,6 @@
 
     <build>
         <plugins>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -116,6 +115,31 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <jvmArguments>--add-modules jdk.incubator.vector --enable-preview</jvmArguments>
+                    <compilerArguments>--enable-preview -g --add-modules jdk.incubator.vector</compilerArguments>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.graalvm.buildtools</groupId>
+                <artifactId>native-maven-plugin</artifactId>
+                <configuration>
+                    <buildArgs>
+                        <buildArg>-H:+UnlockExperimentalVMOptions</buildArg>
+                        <buildArg>-H:+VectorAPISupport</buildArg>
+                        <buildArg>-H:+ForeignAPISupport</buildArg>
+<!--                        <buildArg>-Ob</buildArg>-->
+                        <buildArg>-O3</buildArg>
+                        <buildArg>-march=native</buildArg>
+                        <buildArg>--verbose</buildArg>
+                        <buildArg>--emit</buildArg>
+                        <buildArg>build-report</buildArg>
+                        <buildArg>--enable-preview</buildArg>
+                        <buildArg>--add-modules</buildArg>
+                        <buildArg>jdk.incubator.vector</buildArg>
+                        <buildArg>--initialize-at-build-time=com.llama4j.core.FloatTensor,com.llama4j.core.Llama,com.llama4j.core.ModelLoader,com.llama4j.core.</buildArg>
+                        <buildArg>-Djdk.incubator.vector.VECTOR_ACCESS_OOB_CHECK=0</buildArg>
+                        <buildArg>-Dllama.PreloafGGUF=./models/</buildArg>
+                    </buildArgs>
                 </configuration>
             </plugin>
         </plugins>

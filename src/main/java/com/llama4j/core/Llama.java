@@ -1,8 +1,6 @@
 package com.llama4j.core;
 
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
@@ -13,7 +11,6 @@ import java.util.stream.Stream;
 
 public record Llama(Configuration configuration, Tokenizer tokenizer, Weights weights) {
 
-    private static final Logger LOG = LoggerFactory.getLogger(Llama.class);
 
     public @NotNull State createNewState() {
         State state = new State(configuration());
@@ -293,7 +290,7 @@ public record Llama(Configuration configuration, Tokenizer tokenizer, Weights we
                                                         Sampler sampler,
                                                         boolean echo,
                                                         IntConsumer onTokenGenerated) {
-        LOG.debug("Generating tokens from position {}", startPosition);
+        System.out.printf("Generating tokens from position %s%n", startPosition);
         long startNanos = System.nanoTime();
         if (maxTokens < 0 || model.configuration().contextLength < maxTokens) {
             maxTokens = model.configuration().contextLength;
@@ -303,7 +300,7 @@ public record Llama(Configuration configuration, Tokenizer tokenizer, Weights we
         int nextToken;
         int promptIndex = 0;
 
-        LOG.debug("Using {}", state.logits);
+        System.out.printf("Using %s%n", state.logits);
 
         for (int position = startPosition; position < maxTokens; ++position) {
             forward(model, state, token, position);
@@ -313,13 +310,13 @@ public record Llama(Configuration configuration, Tokenizer tokenizer, Weights we
                 nextToken = promptTokens.get(promptIndex++);
                 if (echo) {
                     // log prompt token (different color?)
-                    LOG.error(Tokenizer.replaceControlCharacters(model.tokenizer().decode(List.of(nextToken))));
+                    System.err.println(Tokenizer.replaceControlCharacters(model.tokenizer().decode(List.of(nextToken))));
                 }
             } else {
                 nextToken = sampler.sampleToken(state.logits);
                 if (echo) {
                     // log inferred token
-                    LOG.error(Tokenizer.replaceControlCharacters(model.tokenizer().decode(List.of(nextToken))));
+                    System.err.println(Tokenizer.replaceControlCharacters(model.tokenizer().decode(List.of(nextToken))));
                 }
                 generatedTokens.add(nextToken);
                 if (onTokenGenerated != null) {
@@ -332,7 +329,7 @@ public record Llama(Configuration configuration, Tokenizer tokenizer, Weights we
             state.latestToken = token = nextToken;
 
             if (position % 50 == 0) {
-                LOG.debug("Progress: {} tokens generated", position);
+                System.out.printf("Progress: %s tokens generated%n", position);
             }
         }
 
@@ -340,7 +337,7 @@ public record Llama(Configuration configuration, Tokenizer tokenizer, Weights we
         int totalTokens = promptIndex + generatedTokens.size();
 
         String tokensMsg = String.format("%n%.2f tokens/s (%d)", totalTokens / (elapsedNanos / 1_000_000_000.0), totalTokens);
-        LOG.debug(tokensMsg);
+        System.out.println(tokensMsg);
 
         return generatedTokens;
     }

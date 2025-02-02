@@ -1,8 +1,10 @@
 package com.llama4j;
 
+import com.llama4j.dto.ChatCompletionResponse;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -13,8 +15,8 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
 
-@EnableConfigurationProperties
 @SpringBootApplication
+@RegisterReflectionForBinding(ChatCompletionResponse.class)
 public class Main {
 
     private static final Logger LOG = LoggerFactory.getLogger(Main.class);
