@@ -23,7 +23,6 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import static com.llama4j.core.Llama3.*;
 
-@SpringBootApplication
 @RestController
 public class LlamaWrapperApplication {
 

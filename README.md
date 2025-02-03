@@ -38,6 +38,17 @@ IMPORTANT: Do not use SDKMan because this will fall back to the x86 version of t
 mvn clean package
 ```
 
+## Build in native image
+
+Use a GraalVM JDK 24 or higher (tested with Graal 24, ea 30)
+
+```
+./mvnw -Pnative native:compile
+```
+
+This will produce `./target/llama3-server`. This does not work on MacOS because there is no Vector
+API support on Graal + MacOS.
+
 ## Download LLM
 
 Download a GGUF model from the Hugging Face model hub and place it in the 'models' directory. 

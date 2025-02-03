@@ -7,8 +7,6 @@ import jdk.incubator.vector.VectorOperators;
 import jdk.incubator.vector.VectorSpecies;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.lang.foreign.Arena;
@@ -30,10 +28,9 @@ import java.util.stream.IntStream;
 
 public class Llama3 {
 
-    private static final Logger LOG = LoggerFactory.getLogger(Llama3.class);
 
     public static Sampler selectSampler(int vocabularySize, float temperature, float topp, long rngSeed) {
-        LOG.debug("Creating sampler with temperature={}, topp={}, seed={}", temperature, topp, rngSeed);
+        System.out.printf("Creating sampler with temperature=%s, topp=%s, seed=%s%n", temperature, topp, rngSeed);
 
         Sampler sampler;
         if (temperature == 0.0f) {
@@ -72,7 +69,7 @@ public class Llama3 {
         int startPosition = 0;
         Scanner in = new Scanner(System.in);
         while (true) {
-            LOG.debug("> ");
+            System.out.println("> ");
             String userText = in.nextLine();
             if (List.of("quit", "exit").contains(userText)) {
                 break;
@@ -86,7 +83,7 @@ public class Llama3 {
             List<Integer> responseTokens = Llama.generateTokens(model, state, startPosition, conversationTokens.subList(startPosition, conversationTokens.size()), stopTokens, options.maxTokens(), sampler, options.echo(), token -> {
                 if (options.stream()) {
                     if (model.tokenizer().isNotSpecialToken(token)) {
-                        LOG.debug(model.tokenizer().decode(List.of(token)));
+                        System.out.println(model.tokenizer().decode(List.of(token)));
                     }
                 }
             });
@@ -100,10 +97,10 @@ public class Llama3 {
             }
             if (!options.stream()) {
                 String responseText = model.tokenizer().decode(responseTokens);
-                LOG.debug(responseText);
+                System.out.println(responseText);
             }
             if (stopToken == null) {
-                LOG.error("Ran out of context length...");
+                System.err.println("Ran out of context length...");
                 break;
             }
         }
@@ -119,7 +116,7 @@ public class Llama3 {
     public static @NotNull RequestResponse runInstructOnce(@NotNull Llama model,
                                                   Sampler sampler,
                                                   @NotNull Options options) {
-        LOG.debug("Running instruct once");
+        System.out.println("Running instruct once");
         StringBuffer buffer = new StringBuffer();
         Llama.State state = model.createNewState();
         ChatFormat chatFormat = new ChatFormat(model.tokenizer());
@@ -136,12 +133,12 @@ public class Llama3 {
         List<Integer> responseTokens = Llama.generateTokens(model, state, 0, promptTokens, stopTokens, options.maxTokens(), sampler, options.echo(), token -> {
             String decode = model.tokenizer().decode(List.of(token));
             buffer.append(decode);
-            LOG.debug(decode);
+            System.out.println(decode);
 
             // TODO Double check if this is still required when using buffer.append ?
 //            if (options.stream()) {
 //                if (model.tokenizer().isNotSpecialToken(token)) {
-//                    LOG.debug(decode);
+//                    soutcode);
 //                }
 //            }
         });
@@ -152,7 +149,7 @@ public class Llama3 {
 
         if (!options.stream()) {
             String responseText = model.tokenizer().decode(responseTokens);
-            LOG.debug(responseText);
+            System.out.println(responseText);
         }
 
         return new RequestResponse(responseTokens.size(), buffer.toString());
@@ -537,7 +534,6 @@ final class GGUF {
 }
 
 interface Timer extends AutoCloseable {
-    Logger LOGGER = LoggerFactory.getLogger(Timer.class);
 
     @Override
     void close(); // no Exception
@@ -555,7 +551,7 @@ interface Timer extends AutoCloseable {
             @Override
             public void close() {
                 long elapsedNanos = System.nanoTime() - startNanos;
-                LOGGER.debug("{}: {} {}",
+                System.out.printf("%s: %s %s%n",
                     label,
                     timeUnit.convert(elapsedNanos, TimeUnit.NANOSECONDS),
                     timeUnit.toChronoUnit().name().toLowerCase());

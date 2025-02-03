@@ -3,8 +3,6 @@ package com.llama4j.core;
 import jdk.incubator.vector.FloatVector;
 import jdk.incubator.vector.VectorSpecies;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import sun.misc.Unsafe;
 
 import java.lang.foreign.MemorySegment;
@@ -19,7 +17,6 @@ import java.util.Arrays;
  */
 public abstract class FloatTensor {
 
-    private static final Logger LOG = LoggerFactory.getLogger(FloatTensor.class);
 
     static final boolean USE_VECTOR_API = Boolean.parseBoolean(System.getProperty("llama.VectorAPI", "true"));
 
@@ -35,7 +32,6 @@ public abstract class FloatTensor {
             f.setAccessible(true);
             UNSAFE = (Unsafe) f.get(null);
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            LOG.error("Failed to access Unsafe", e);
             throw new RuntimeException(e);
         }
     }
