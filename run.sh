@@ -1,8 +1,6 @@
 #!/bin/zsh
 
 # Set environment variables
-# export JAVA_HOME=/Library/Java/JavaVirtualMachines/liberica-jdk-21.jdk/Contents/Home
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-23.jdk/Contents/Home
 
 java_config=$(cat <<EOF -XX:+UseG1GC -XX:MaxGCPauseMillis=500 -XX:InitiatingHeapSizePercent=40 -XX:GCTimeRatio=7 -XX:MaxGCTimeRatio=14 EOF )
 
