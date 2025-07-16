@@ -57,7 +57,7 @@ For example:
 ```bash
 mkdir models 
 cd models
-curl https://huggingface.co/hugging-quants/Llama-3.2-1B-Instruct-Q8_0-GGUF/blob/main/llama-3.2-1b-instruct-q8_0.gguf
+curl https://huggingface.co/mukel/Llama-3.2-3B-Instruct-GGUF/resolve/main/Llama-3.2-3B-Instruct-Q4_0.gguf
 ```
 
 Update the 'llama.model.name' variable in the application.properties file if you use a different model.
@@ -67,7 +67,7 @@ spring.application.name=Llama3.java Server
 server.servlet.context-path=/
 
 llama.model.path=models
-llama.model.name=Meta-Llama-3.2-1b-instruct-Q8_0.gguf
+llama.model.name=Llama-3.2-3B-Instruct-Q4_0.gguf
 
 logging.level.com.llama4j=INFO
 
